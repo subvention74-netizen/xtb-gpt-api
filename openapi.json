@@ -1,0 +1,174 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "XTB France Market Tools",
+    "version": "1.0.0",
+    "description": "Custom Action API for checking XTB France instrument availability and fetching free market data."
+  },
+  "servers": [
+    {
+      "url": "https://REPLACE_WITH_YOUR_DOMAIN"
+    }
+  ],
+  "paths": {
+    "/check_xtb_instrument": {
+      "get": {
+        "operationId": "check_xtb_instrument",
+        "summary": "Verify if an instrument appears in official XTB France sources",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "XTB symbol, e.g. AAPL.US, EURUSD, EU50, GOLD"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Instrument availability result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_realtime_quote": {
+      "get": {
+        "operationId": "get_realtime_quote",
+        "summary": "Get a free market quote",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Yahoo Finance symbol, e.g. AAPL, EURUSD=X, ^GSPC, GC=F"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Quote payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_intraday_bars": {
+      "get": {
+        "operationId": "get_intraday_bars",
+        "summary": "Get intraday candles",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Yahoo Finance symbol"
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "5m",
+              "enum": [
+                "1m",
+                "2m",
+                "5m",
+                "15m",
+                "30m",
+                "60m",
+                "1h"
+              ]
+            },
+            "description": "Candle interval"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 10,
+              "maximum": 1000
+            },
+            "description": "Maximum bars to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Intraday bars",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_market_news": {
+      "get": {
+        "operationId": "get_market_news",
+        "summary": "Get recent news for a symbol or company",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Yahoo Finance symbol or company query"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 8,
+              "minimum": 1,
+              "maximum": 20
+            },
+            "description": "Maximum number of news items"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "News list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
