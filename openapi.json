@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://REMPLACE-MOI.onrender.com"
+      "url": "https://xtb-gpt-api.onrender.com/"
     }
   ],
   "paths": {
