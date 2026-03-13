@@ -1,20 +1,20 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "XTB France Market Tools",
+    "title": "XTB GPT Custom Action API",
     "version": "1.0.0",
-    "description": "Custom Action API for checking XTB France instrument availability and fetching free market data."
+    "description": "API pour vérifier la disponibilité XTB France, récupérer un prix, des bougies intraday et des news."
   },
   "servers": [
     {
-      "url": "https://REPLACE_WITH_YOUR_DOMAIN"
+      "url": "https://REMPLACE-MOI.onrender.com"
     }
   ],
   "paths": {
     "/check_xtb_instrument": {
       "get": {
         "operationId": "check_xtb_instrument",
-        "summary": "Verify if an instrument appears in official XTB France sources",
+        "summary": "Vérifie si l'instrument semble proposé sur XTB France",
         "parameters": [
           {
             "name": "symbol",
@@ -22,20 +22,12 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "XTB symbol, e.g. AAPL.US, EURUSD, EU50, GOLD"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Instrument availability result",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
+            "description": "Résultat de vérification"
           }
         }
       }
@@ -43,7 +35,7 @@
     "/get_realtime_quote": {
       "get": {
         "operationId": "get_realtime_quote",
-        "summary": "Get a free market quote",
+        "summary": "Renvoie le prix actuel",
         "parameters": [
           {
             "name": "symbol",
@@ -51,20 +43,12 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "Yahoo Finance symbol, e.g. AAPL, EURUSD=X, ^GSPC, GC=F"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Quote payload",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
+            "description": "Prix actuel"
           }
         }
       }
@@ -72,7 +56,7 @@
     "/get_intraday_bars": {
       "get": {
         "operationId": "get_intraday_bars",
-        "summary": "Get intraday candles",
+        "summary": "Renvoie les bougies intraday",
         "parameters": [
           {
             "name": "symbol",
@@ -80,51 +64,21 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "Yahoo Finance symbol"
+            }
           },
           {
             "name": "interval",
             "in": "query",
-            "required": false,
+            "required": true,
             "schema": {
               "type": "string",
-              "default": "5m",
-              "enum": [
-                "1m",
-                "2m",
-                "5m",
-                "15m",
-                "30m",
-                "60m",
-                "1h"
-              ]
-            },
-            "description": "Candle interval"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 100,
-              "minimum": 10,
-              "maximum": 1000
-            },
-            "description": "Maximum bars to return"
+              "enum": ["1m", "5m", "1h"]
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Intraday bars",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
+            "description": "Bougies intraday"
           }
         }
       }
@@ -132,7 +86,7 @@
     "/get_market_news": {
       "get": {
         "operationId": "get_market_news",
-        "summary": "Get recent news for a symbol or company",
+        "summary": "Renvoie les news récentes",
         "parameters": [
           {
             "name": "symbol",
@@ -140,32 +94,12 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "Yahoo Finance symbol or company query"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 8,
-              "minimum": 1,
-              "maximum": 20
-            },
-            "description": "Maximum number of news items"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "News list",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
+            "description": "News de marché"
           }
         }
       }
